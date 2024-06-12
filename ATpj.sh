@@ -6,8 +6,21 @@ echo "在开始前请准备U盘 并放入GLODHEN 首次破解需插入PS4："
 echo "连接路由器和PS4线路"
 echo "PS4的网络设置为有线连接、定制、pppoe（账户密码随意）、DNS自动、MTU自动、不使用Proxy服务器"
 echo "路由器开启程序并准备运行中后，，，PS4操作 测试连接网络激活程序运行"
+read -p "是否继续？(y/n): " continue_script
+if [ "$continue_script" != "y" ] && [ "$continue_script" != "Y" ]; then
+    echo "退出脚本。"
+    exit 0
+fi
 
+# Remove startup entry and stop any running PPPwn processes
+echo "正在删除系统启动项并停止PPPwn相关进程..."
+/etc/init.d/myps4 disable
+/etc/init.d/myps4 stop
 
+# Kill any running PPPwn processes
+for pid in $(pgrep pppwn); do
+    kill $pid
+done
 
 # Check if required packages and files are already installed
 check_installation() {
@@ -18,6 +31,40 @@ check_installation() {
         return 0
     else
         return 1
+    fi
+}
+
+# Function to install required packages
+install_packages() {
+    echo "正在下载安装必要插件..."
+    opkg update
+
+    # Check and install unzip if not installed
+    if ! opkg list-installed | grep -q 'unzip'; then
+        opkg install unzip
+        if [ $? -ne 0 ]; then
+            echo "unzip 安装失败。请检查软件源是否提供所需软件或者安装符合要求的OpenWRT。"
+            read -p "是否重试？(y/n): " retry
+            if [ "$retry" = "y" ] || [ "$retry" = "Y" ]; then
+                install_packages
+            else
+                exit 1
+            fi
+        fi
+    fi
+
+    # Check and install libpcap if not installed
+    if ! opkg list-installed | grep -q 'libpcap'; then
+        opkg install libpcap
+        if [ $? -ne 0 ]; then
+            echo "libpcap 安装失败。请检查软件源是否提供所需软件或者安装符合要求的OpenWRT。"
+            read -p "是否重试？(y/n): " retry
+            if [ "$retry" = "y" ] || [ "$retry" = "Y" ]; then
+                install_packages
+            else
+                exit 1
+            fi
+        fi
     fi
 }
 
