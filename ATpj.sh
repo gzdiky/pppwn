@@ -170,9 +170,6 @@ $pppwn_executable -i $interface --fw $fw_code --stage1 "/etc/pppwn/$stage1_file"
 if [ $? -eq 0 ]; then
     echo "PS4越狱工具运行成功。"
 
-if [ $? -eq 0 ]; then
-    echo "PS4越狱工具运行成功。"
-
     # Ask if user wants to add to startup
     read -p "是否添加自动运行？(y/n): " add_autorun
     if [ "$add_autorun" = "y" ] || [ "$add_autorun" = "Y" ]; then
