@@ -145,13 +145,13 @@ esac
 arch=$(uname -m)
 case $arch in
     x86_64)
-        pppwn_executable="/etc/PPPwn/pppwn_x86_64"
+        pppwn_executable="/etc/pppwn/pppwn_x86_64"
         ;;
     aarch64)
-        pppwn_executable="/etc/PPPwn/pppwn_aarch64"
+        pppwn_executable="/etc/pppwn/pppwn_aarch64"
         ;;
     mipsel)
-        pppwn_executable="/etc/PPPwn/pppwn_mipsel"
+        pppwn_executable="/etc/pppwn/pppwn_mipsel"
         ;;
     *)
         echo "PS4越狱工具不支持当前平台，请更换路由器或等待新版越狱工具。"
@@ -161,7 +161,7 @@ esac
 
 # Run the jailbreak tool
 echo "正在运行PS4越狱工具..."
-$pppwn_executable -i $interface --fw $fw_code --stage1 "/etc/PPPwn/$stage1_file" --stage2 "/etc/PPPwn/$stage2_file" -a
+/etc/pppwn/$pppwn_executable --interface $interface --fw $fw_code --stage1 /etc/pppwn/stage1_$fw_code.bin --stage2 /etc/pppwn/stage2_$fw_code.bin --auto-retry 
 if [ $? -eq 0 ]; then
     echo "PS4越狱工具运行成功。"
 
