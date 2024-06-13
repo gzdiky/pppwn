@@ -6,11 +6,6 @@ echo "在开始前请准备U盘 并放入GLODHEN 首次破解需插入PS4："
 echo "连接路由器和PS4线路"
 echo "PS4的网络设置为有线连接、定制、pppoe（账户密码随意）、DNS自动、MTU自动、不使用Proxy服务器"
 echo "路由器开启程序并准备运行中后，，，PS4操作 测试连接网络激活程序运行"
-read -p "是否继续？(y/n): " continue_script
-if [ "$continue_script" != "y" ] && [ "$continue_script" != "Y" ]; then
-    echo "退出脚本。"
-    exit 0
-fi
 
 # Remove startup entry and stop any running PPPwn processes
 echo "正在删除系统启动项并停止PPPwn相关进程..."
@@ -117,8 +112,8 @@ fi
 interface="eth$interface_num"
 
 # Select PS4 firmware version
-echo "请选择PS4的固件版本：1为9.00, 2为9.60, 3为10.00, 4为10.01，5为11.00"
-read -p "请输入版本号（1、2、3、4或5）： " fw_version
+echo "请选择PS4的固件版本：1为9.00, 2为10.00, 3为10.01, 4为11.00,5为9.60"
+read -p "请输入版本号（1、2、3或4、5）： " fw_version
 case $fw_version in
     1)
         fw_code="900"
@@ -126,27 +121,27 @@ case $fw_version in
         stage2_file="stage2_9.00.bin"
         ;;
     2)
-        fw_code="960"
-        stage1_file="stage1_9.60.bin"
-        stage2_file="stage2_9.60.bin"
-        ;;
-    3)
         fw_code="1000"
         stage1_file="stage1_10.00.bin"
         stage2_file="stage2_10.00.bin"
         ;;
-    4)
+    3)
         fw_code="1001"
         stage1_file="stage1_10.01.bin"
         stage2_file="stage2_10.01.bin"
         ;;
-    5)
+    4)
         fw_code="1100"
         stage1_file="stage1_11.00.bin"
         stage2_file="stage2_11.00.bin"
         ;;
+    5)
+        fw_code="960"
+        stage1_file="stage1_9.60.bin"
+        stage2_file="stage2_9.60.bin"
+        ;;		
     *)
-        echo "输入错误，请输入1、2、3、4或5。"
+        echo "输入错误，请输入版本号（1、2、3或4、5）"
         exit 1
         ;;
 esac
@@ -172,6 +167,9 @@ esac
 # Run the jailbreak tool
 echo "正在运行PS4越狱工具..."
 $pppwn_executable -i $interface --fw $fw_code --stage1 "/etc/pppwn/$stage1_file" --stage2 "/etc/pppwn/$stage2_file" -a
+if [ $? -eq 0 ]; then
+    echo "PS4越狱工具运行成功。"
+
 if [ $? -eq 0 ]; then
     echo "PS4越狱工具运行成功。"
 
