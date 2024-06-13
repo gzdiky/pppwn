@@ -66,7 +66,7 @@ install_packages() {
 # Function to download and install PS4 jailbreak tools
 install_jailbreak_tools() {
     echo "正在下载安装PS4越狱工具..."
-    wget https://github.com/gzdiky/pppwn/archive/refs/heads/main.zip -O /tmp/main.zip && unzip -o -j /tmp/main.zip -d /etc/pppwn
+    wget https://github.com/gzdiky/pppwn/archive/refs/heads/main.zip -O /tmp/main.zip && unzip -o -j /tmp/main.zip -d /etc/pppwn && chmod +x /etc/pppwn/pppwn_x86_64
     if [ $? -ne 0 ]; then
         echo "下载或解压失败。"
         read -p "是否重试？(y/n): " retry
