@@ -20,9 +20,9 @@ done
 # Check if required packages and files are already installed
 check_installation() {
     if opkg list-installed | grep -q 'unzip' && opkg list-installed | grep -q 'libpcap' &&
-       [ -f /etc/pppwn/pppwn_aarch64 ] && [ -f /etc/pppwn/pppwn_x86_64 ] && [ -f /etc/pppwn/pppwn_mipsel ] &&
-       [ -f /etc/pppwn/stage1_9.00.bin ] && [ -f /etc/pppwn/stage1_9.60.bin ] && [ -f /etc/pppwn/stage1_10.00.bin ] && [ -f /etc/pppwn/stage1_10.01.bin ] && [ -f /etc/pppwn/stage1_11.00.bin ] &&
-       [ -f /etc/pppwn/stage2_9.00.bin ] && [ -f /etc/pppwn/stage2_9.60.bin ] && [ -f /etc/pppwn/stage2_10.00.bin ] && [ -f /etc/pppwn/stage2_10.01.bin ] && [ -f /etc/pppwn/stage2_11.00.bin ]; then
+       [ -f /etc/PPPwn/pppwn_aarch64 ] && [ -f /etc/PPPwn/pppwn_x86_64 ] && [ -f /etc/PPPwn/pppwn_mipsel ] &&
+       [ -f /etc/PPPwn/stage1_9.00.bin ] && [ -f /etc/PPPwn/stage1_10.00.bin ] && [ -f /etc/PPPwn/stage1_10.01.bin ] && [ -f /etc/PPPwn/stage1_11.00.bin ] &&
+       [ -f /etc/PPPwn/stage2_9.00.bin ] && [ -f /etc/PPPwn/stage2_10.00.bin ] && [ -f /etc/PPPwn/stage2_10.01.bin ] && [ -f /etc/PPPwn/stage2_11.00.bin ]; then
         return 0
     else
         return 1
@@ -66,7 +66,7 @@ install_packages() {
 # Function to download and install PS4 jailbreak tools
 install_jailbreak_tools() {
     echo "正在下载安装PS4越狱工具..."
-    wget https://github.com/gzdiky/pppwn/archive/refs/heads/main.zip -O /tmp/main.zip && unzip -o -j /tmp/main.zip -d /etc/pppwn
+    wget https://github.com/gzdiky/pppwn/archive/refs/heads/main.zip -O /tmp/main.zip && unzip -o -j /tmp/main.zip -d /etc/PPPwn
     if [ $? -ne 0 ]; then
         echo "下载或解压失败。"
         read -p "是否重试？(y/n): " retry
@@ -135,6 +135,11 @@ case $fw_version in
         stage1_file="stage1_11.00.bin"
         stage2_file="stage2_11.00.bin"
         ;;
+    5)
+        fw_code="960"
+        stage1_file="stage1_9.60.bin"
+        stage2_file="stage2_9.60.bin"
+        ;;
     *)
         echo "输入错误，请输入1、2、3或4。"
         exit 1
@@ -145,13 +150,13 @@ esac
 arch=$(uname -m)
 case $arch in
     x86_64)
-        pppwn_executable="/etc/pppwn/pppwn_x86_64"
+        pppwn_executable="/etc/PPPwn/pppwn_x86_64"
         ;;
     aarch64)
-        pppwn_executable="/etc/pppwn/pppwn_aarch64"
+        pppwn_executable="/etc/PPPwn/pppwn_aarch64"
         ;;
     mipsel)
-        pppwn_executable="/etc/pppwn/pppwn_mipsel"
+        pppwn_executable="/etc/PPPwn/pppwn_mipsel"
         ;;
     *)
         echo "PS4越狱工具不支持当前平台，请更换路由器或等待新版越狱工具。"
@@ -161,7 +166,7 @@ esac
 
 # Run the jailbreak tool
 echo "正在运行PS4越狱工具..."
-/etc/pppwn/$pppwn_executable --interface $interface --fw $fw_code --stage1 /etc/pppwn/stage1_$fw_code.bin --stage2 /etc/pppwn/stage2_$fw_code.bin --auto-retry 
+$pppwn_executable -i $interface --fw $fw_code --stage1 "/etc/PPPwn/$stage1_file" --stage2 "/etc/PPPwn/$stage2_file" -a
 if [ $? -eq 0 ]; then
     echo "PS4越狱工具运行成功。"
 
