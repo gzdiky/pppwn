@@ -66,12 +66,8 @@ esac
 # Run the jailbreak tool
 echo "正在运行PS4越狱工具..."
 $pppwn_executable -i $interface --fw $fw_code --stage1 "/etc/pppwn/$stage1_file" --stage2 "/etc/pppwn/$stage2_file" -a
-if [ $? -eq 0 ]; then
-    echo "PS4越狱工具运行成功。"
 
-    # Ask if user wants to add to startup
-    read -p "是否添加自动运行？(y/n): " add_autorun
-    if [ "$add_autorun" = "y" ] || [ "$add_autorun" = "Y" ]; then
+
         echo "#!/bin/sh" > /etc/pppwn/myps4.sh
         echo "$pppwn_executable -i $interface --fw $fw_code --stage1 \"/etc/pppwn/$stage1_file\" --stage2 \"/etc/pppwn/$stage2_file\" -a" >> /etc/pppwn/myps4.sh
         echo "sleep 5" >> /etc/pppwn/myps4.sh
@@ -109,7 +105,6 @@ EOF
 
         echo "PS4越狱工具已添加到系统启动项。"
 
-    fi
 
     # Setup process monitoring
     echo "正在设置进程守护..."
@@ -140,7 +135,7 @@ start() {
 }
 
 stop() {
-    echo "Stopping PS4 jailbreak monitor..."
+    echo "Stopping PS4 jailbreak monitor...
     for pid in $(pgrep -f monitor_ps4.sh); do
         kill $pid
     done
@@ -157,9 +152,5 @@ EOF
     /etc/init.d/myps4 start
     /etc/init.d/monitor_ps4 start
 
-else
-    echo "PS4越狱工具运行失败，请检查配置。"
-    exit 1
-fi
 
 echo "脚本执行完毕。"
