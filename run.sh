@@ -50,12 +50,15 @@ arch=$(uname -m)
 case $arch in
     x86_64)
         pppwn_executable="/etc/pppwn/pppwn_x86_64"
+        chmod +x /etc/pppwn/pppwn_x86_64
         ;;
     aarch64)
         pppwn_executable="/etc/pppwn/pppwn_aarch64"
+        chmod +x /etc/pppwn/pppwn_aarch64
         ;;
     mipsel)
         pppwn_executable="/etc/pppwn/pppwn_mipsel"
+        chmod +x /etc/pppwn/pppwn_mipsel
         ;;
     *)
         echo "PS4越狱工具不支持当前平台，请更换路由器或等待新版越狱工具。"
