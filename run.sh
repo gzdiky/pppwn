@@ -11,8 +11,8 @@ fi
 interface="eth$interface_num"
 
 # Select PS4 firmware version
-echo "请选择PS4的固件版本：1为9.00, 2为10.00, 3为10.01, 4为11.00, 5为9.60"
-read -p "请输入版本号（1、2、3或4、5）： " fw_version
+echo "请选择PS4的固件版本：1为9.00, 2为9.60, 3为10.00, 4为10.01，5为11.00"
+read -p "请输入版本号（1、2、3、4或5）： " fw_version
 case $fw_version in
     1)
         fw_code="900"
@@ -20,27 +20,27 @@ case $fw_version in
         stage2_file="stage2_9.00.bin"
         ;;
     2)
-        fw_code="1000"
-        stage1_file="stage1_10.00.bin"
-        stage2_file="stage2_10.00.bin"
-        ;;
-    3)
-        fw_code="1001"
-        stage1_file="stage1_10.01.bin"
-        stage2_file="stage2_10.01.bin"
-        ;;
-    4)
-        fw_code="1100"
-        stage1_file="stage1_11.00.bin"
-        stage2_file="stage2_11.00.bin"
-        ;;
-    5)
         fw_code="960"
         stage1_file="stage1_9.60.bin"
         stage2_file="stage2_9.60.bin"
         ;;
+    3)
+        fw_code="1000"
+        stage1_file="stage1_10.00.bin"
+        stage2_file="stage2_10.00.bin"
+        ;;
+    4)
+        fw_code="1001"
+        stage1_file="stage1_10.01.bin"
+        stage2_file="stage2_10.01.bin"
+        ;;
+    5)
+        fw_code="1100"
+        stage1_file="stage1_11.00.bin"
+        stage2_file="stage2_11.00.bin"
+        ;;
     *)
-        echo "输入错误，请输入1、2、3或4。、5"
+        echo "输入错误，请输入1、2、3、4或 5"
         exit 1
         ;;
 esac

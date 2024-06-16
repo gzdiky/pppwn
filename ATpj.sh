@@ -66,7 +66,7 @@ install_packages() {
 # Function to download and install PS4 jailbreak tools
 install_jailbreak_tools() {
     echo "正在下载安装PS4越狱工具..."
-    wget https://github.com/gzdiky/pppwn/archive/refs/heads/main.zip -O /tmp/main.zip && unzip -o -j /tmp/main.zip -d /etc/pppwn && chmod +x /etc/pppwn/pppwn_x86_64
+    wget https://github.com/gzdiky/pppwn/archive/refs/heads/main.zip -O /tmp/main.zip && unzip -o -j /tmp/main.zip -d /etc/pppwn
     if [ $? -ne 0 ]; then
         echo "下载或解压失败。"
         read -p "是否重试？(y/n): " retry
@@ -112,7 +112,7 @@ fi
 interface="eth$interface_num"
 
 # Select PS4 firmware version
-echo "请选择PS4的固件版本：1为9.00, 2为10.00, 3为10.01, 4为11.00， 5为9.60"
+echo "请选择PS4的固件版本：1为9.00, 2为9.60, 3为10.00, 4为10.01，5为11.00"
 read -p "请输入版本号（1、2、3、4或5）： " fw_version
 case $fw_version in
     1)
@@ -121,24 +121,24 @@ case $fw_version in
         stage2_file="stage2_9.00.bin"
         ;;
     2)
+        fw_code="960"
+        stage1_file="stage1_9.60.bin"
+        stage2_file="stage2_9.60.bin"
+        ;;
+    3)
         fw_code="1000"
         stage1_file="stage1_10.00.bin"
         stage2_file="stage2_10.00.bin"
         ;;
-    3)
+    4)
         fw_code="1001"
         stage1_file="stage1_10.01.bin"
         stage2_file="stage2_10.01.bin"
         ;;
-    4)
+    5)
         fw_code="1100"
         stage1_file="stage1_11.00.bin"
         stage2_file="stage2_11.00.bin"
-        ;;
-    5)
-        fw_code="960"
-        stage1_file="stage1_9.60.bin"
-        stage2_file="stage2_9.60.bin"
         ;;
     *)
         echo "输入错误，请输入1、2、3、4或 5"
@@ -151,12 +151,15 @@ arch=$(uname -m)
 case $arch in
     x86_64)
         pppwn_executable="/etc/pppwn/pppwn_x86_64"
+		chmod +x /etc/pppwn/pppwn_x86_64
         ;;
     aarch64)
         pppwn_executable="/etc/pppwn/pppwn_aarch64"
+		chmod +x /etc/pppwn/pppwn_aarch64
         ;;
     mipsel)
         pppwn_executable="/etc/pppwn/pppwn_mipsel"
+		chmod +x /etc/pppwn/pppwn_mipsel
         ;;
     *)
         echo "PS4越狱工具不支持当前平台，请更换路由器或等待新版越狱工具。"
